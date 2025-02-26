@@ -33,7 +33,7 @@ public class Mover : MonoBehaviour
         {
             transform.Translate(0, -velocidad * Time.deltaTime, 0);
         }*/
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             Saltar();
         }

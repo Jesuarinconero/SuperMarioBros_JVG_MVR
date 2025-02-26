@@ -3,6 +3,13 @@ using UnityEngine;
 public class Colisiones : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public bool colisionesconelsuelo;
+    public Transform checkearsuelo;
+    public float suelocheckeadoRadio;
+    public LayerMask sueloLayer;
+
+
     void Start()
     {
         
@@ -13,7 +20,19 @@ public class Colisiones : MonoBehaviour
     {
         
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    public bool Suelo()
+    {
+        //Nos comunica si colisiona con el suelo o no
+        colisionesconelsuelo = Physics2D.OverlapCircle(checkearsuelo.position, suelocheckeadoRadio, sueloLayer);
+        return colisionesconelsuelo;
+    }
+    private void FixedUpdate()
+
+    {
+        //Nos comunica si colisiona con el suelo o no
+        colisionesconelsuelo = Physics2D.OverlapCircle(checkearsuelo.position, suelocheckeadoRadio, sueloLayer);
+    }
+   /* private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("pipe"))
         {
@@ -47,5 +66,5 @@ public class Colisiones : MonoBehaviour
         {
             Debug.Log("Dejo de tocar  el suelo de tu puta madre :=)");
         }
-    }
+    }*/
 }
