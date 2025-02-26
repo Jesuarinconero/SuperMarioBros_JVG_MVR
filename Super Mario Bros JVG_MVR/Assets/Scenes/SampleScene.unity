@@ -866,12 +866,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b279cfeccae1964eb16027a1468c206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colisionesconelsuelo: 0
+  colisionesconelsuelo: 1
   checkearsuelo: {fileID: 444777551}
-  suelocheckeadoRadio: 0
+  suelocheckeadoRadio: 0.25
   sueloLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 129
 --- !u!1 &1592057410
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,7 +881,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1592057411}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}

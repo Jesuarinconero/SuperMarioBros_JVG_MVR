@@ -29,7 +29,6 @@ public class Colisiones : MonoBehaviour
     private void FixedUpdate()
 
     {
-        //Nos comunica si colisiona con el suelo o no
         colisionesconelsuelo = Physics2D.OverlapCircle(checkearsuelo.position, suelocheckeadoRadio, sueloLayer);
     }
    /* private void OnCollisionEnter2D(Collision2D collision)

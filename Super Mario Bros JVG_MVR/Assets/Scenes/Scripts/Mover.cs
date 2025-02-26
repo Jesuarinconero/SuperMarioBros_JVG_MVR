@@ -7,11 +7,14 @@ public class Mover : MonoBehaviour
      Rigidbody2D rb2;
     enum Direccion { Left = -1, None = 0 , Right = 1};
     Direccion currentDirection = Direccion.None;
+    Colisiones colisones;
+
 
 
     private void Awake()
     {
         rb2 = GetComponent<Rigidbody2D>();
+        colisones = GetComponent<Colisiones>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -56,10 +59,14 @@ public class Mover : MonoBehaviour
     }
     void Saltar()
     {
-        Vector2 fuezadesalto = new Vector2(0,10f);
-        rb2.AddForce(fuezadesalto, ForceMode2D.Impulse);
+        if (colisones.Suelo())
+        {
+            Vector2 fuezadesalto = new Vector2(0, 10f);
+            rb2.AddForce(fuezadesalto, ForceMode2D.Impulse);
 
+        }
 
+  
     }
     void MovimientoDerecha()
     {
