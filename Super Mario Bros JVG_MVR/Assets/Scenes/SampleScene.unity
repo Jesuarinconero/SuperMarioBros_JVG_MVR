@@ -820,11 +820,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1516333217}
   - component: {fileID: 1516333216}
+  - component: {fileID: 1516333223}
   - component: {fileID: 1516333219}
   - component: {fileID: 1516333218}
   - component: {fileID: 1516333220}
   - component: {fileID: 1516333221}
   - component: {fileID: 1516333222}
+  - component: {fileID: 1516333224}
   m_Layer: 6
   m_Name: Mario
   m_TagString: Untagged
@@ -916,12 +918,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocidad: 5
+  rb2: {fileID: 0}
   aceleracion: 10
   maximavelocidad: 8
   friccion: 14
   currentVelocidad: 0
   fuerzadesalto: 16
   maximosalto: 1
+  isjumping: 0
+  isSkidding: 0
 --- !u!50 &1516333219
 Rigidbody2D:
   serializedVersion: 5
@@ -1050,6 +1055,40 @@ CapsuleCollider2D:
   m_Offset: {x: -0.061610352, y: 0.032881297}
   m_Size: {x: 0.64696497, y: 0.05618108}
   m_Direction: 1
+--- !u!95 &1516333223
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516333215}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cc0f5fc1552a881468a4078ca16243bd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1516333224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516333215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84d5d5f2a6a0e054b89cd6deeaa7e723, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1592057410
 GameObject:
   m_ObjectHideFlags: 0

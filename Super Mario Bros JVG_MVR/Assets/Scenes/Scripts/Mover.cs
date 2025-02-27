@@ -4,7 +4,7 @@ public class Mover : MonoBehaviour
 {
     //Variable de velocidad del personaje
     public float velocidad ;
-     Rigidbody2D rb2;
+    public Rigidbody2D rb2;
     enum Direccion { Left = -1, None = 0 , Right = 1};
     Direccion currentDirection = Direccion.None;
     Colisiones colisones;
@@ -17,9 +17,13 @@ public class Mover : MonoBehaviour
 
     public float fuerzadesalto;
     public float maximosalto = 1f;
-    bool isjumping;
+    public bool isjumping;
+    public bool isSkidding;
     float saltotimer = 0;
     float defaultgravedad;
+
+    animaciones animaciones;
+
 
 
 
@@ -29,6 +33,7 @@ public class Mover : MonoBehaviour
     {
         rb2 = GetComponent<Rigidbody2D>();
         colisones = GetComponent<Colisiones>();
+        animaciones = GetComponent<animaciones>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -42,18 +47,22 @@ public class Mover : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool suelo = colisones.Suelo();
+        animaciones.Grounded(suelo);
+
         if (isjumping)
         {
-            if(rb2.linearVelocity.y < 0f)
+            if(rb2.linearVelocity.y <= 0f)
             {
                 rb2.gravityScale = defaultgravedad;
-                if (colisones.Suelo())
+                if (suelo)
                 {
                     isjumping = false;
                     saltotimer = 0;
+                    animaciones.Salto(false);
                 }
             }
-            else if (rb2.linearVelocity.y > 0f)
+             if (rb2.linearVelocity.y > 0f)
             {
                 if(Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow))
                 {
@@ -84,7 +93,11 @@ public class Mover : MonoBehaviour
         }*/
         if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            Saltar();
+            if (suelo)
+            {
+                Saltar();
+            }
+          
         }
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
@@ -108,6 +121,7 @@ public class Mover : MonoBehaviour
   
         Vector2 movimiento = new Vector2(velocidadx, rb2.linearVelocity.y);
         rb2.linearVelocity = movimiento;*/
+        isSkidding = false;
 
         currentVelocidad = rb2.linearVelocity.x;
         if (currentDirection > 0)
@@ -115,9 +129,11 @@ public class Mover : MonoBehaviour
 
             if (currentVelocidad < 0) {
                 currentVelocidad += ((aceleracion + friccion) * Time.deltaTime);
+                isSkidding = true;
             }else if (currentVelocidad < maximavelocidad)
             {
-                currentVelocidad += aceleracion * Time.deltaTime; 
+                currentVelocidad += aceleracion * Time.deltaTime;
+                transform.localScale = new Vector2(1,1);
             }
         }
         else if (currentDirection < 0)
@@ -125,10 +141,12 @@ public class Mover : MonoBehaviour
             if(currentVelocidad > 0)
             {
                 currentVelocidad -= ((aceleracion + friccion) * Time.deltaTime);
+                isSkidding = true;
             }
             else if (currentVelocidad > -maximavelocidad)
             {
                 currentVelocidad -= aceleracion * Time.deltaTime;
+                transform.localScale = new Vector2(-1,1);
             }
         }
         else
@@ -146,15 +164,19 @@ public class Mover : MonoBehaviour
         }
         Vector2 velocidad = new Vector2(currentVelocidad, rb2.linearVelocity.y);
         rb2.linearVelocity = velocidad;
+        animaciones.Velocidad(Mathf.Abs(currentVelocidad));
+
+        animaciones.Deslizarse(isSkidding);
         
     }
     void Saltar()
     {
-        if (colisones.Suelo() && !isjumping)
+        if ( !isjumping)
         {
             isjumping = true;
             Vector2 fuezadesalto = new Vector2(0, fuerzadesalto);
             rb2.AddForce(fuezadesalto, ForceMode2D.Impulse);
+            animaciones.Salto(true);
 
         }
 
