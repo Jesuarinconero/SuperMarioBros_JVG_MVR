@@ -8,6 +8,20 @@ public class Mover : MonoBehaviour
     enum Direccion { Left = -1, None = 0 , Right = 1};
     Direccion currentDirection = Direccion.None;
     Colisiones colisones;
+    public float aceleracion;
+    public float maximavelocidad;
+    public float friccion;
+    public float currentVelocidad = 0f;
+
+
+
+    public float fuerzadesalto;
+    public float maximosalto = 1f;
+    bool isjumping;
+    float saltotimer = 0;
+    float defaultgravedad;
+
+
 
 
 
@@ -20,12 +34,44 @@ public class Mover : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        defaultgravedad = rb2.gravityScale;
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isjumping)
+        {
+            if(rb2.linearVelocity.y < 0f)
+            {
+                rb2.gravityScale = defaultgravedad;
+                if (colisones.Suelo())
+                {
+                    isjumping = false;
+                    saltotimer = 0;
+                }
+            }
+            else if (rb2.linearVelocity.y > 0f)
+            {
+                if(Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow))
+                {
+                    saltotimer += Time.deltaTime;
+                }
+                if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.UpArrow))
+                {
+                    if (saltotimer < maximosalto)
+                    {
+                        rb2.gravityScale = defaultgravedad * 3f;
+                    }
+                }
+                {
+
+                }
+            }
+        }
+
         currentDirection = Direccion.None;
         /*
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
@@ -54,14 +100,60 @@ public class Mover : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Vector2 movimiento = new Vector2((int) currentDirection *velocidad , rb2.linearVelocity.y);
-        rb2.linearVelocity = movimiento;
+        /*
+        Vector2 fuerzaacelaracion = new Vector2((int) currentDirection *aceleracion , 0f);
+        rb2.AddForce(fuerzaacelaracion);
+        //Funcion matematica de unity para dejar fija una max y una minima aceleracion
+       // float velocidadx = Mathf.Clamp(rb2.velocity.x , -maximaacelaracion , maximaacelaracion);
+  
+        Vector2 movimiento = new Vector2(velocidadx, rb2.linearVelocity.y);
+        rb2.linearVelocity = movimiento;*/
+
+        currentVelocidad = rb2.linearVelocity.x;
+        if (currentDirection > 0)
+        {
+
+            if (currentVelocidad < 0) {
+                currentVelocidad += ((aceleracion + friccion) * Time.deltaTime);
+            }else if (currentVelocidad < maximavelocidad)
+            {
+                currentVelocidad += aceleracion * Time.deltaTime; 
+            }
+        }
+        else if (currentDirection < 0)
+        {
+            if(currentVelocidad > 0)
+            {
+                currentVelocidad -= ((aceleracion + friccion) * Time.deltaTime);
+            }
+            else if (currentVelocidad > -maximavelocidad)
+            {
+                currentVelocidad -= aceleracion * Time.deltaTime;
+            }
+        }
+        else
+        {
+            if (currentVelocidad > 1f)
+            {
+                currentVelocidad -= friccion * Time.deltaTime;
+            }else if (currentVelocidad < -1f)
+            {
+                currentVelocidad += friccion * Time.deltaTime;
+            }else
+            {
+                currentVelocidad = 0;
+            }
+        }
+        Vector2 velocidad = new Vector2(currentVelocidad, rb2.linearVelocity.y);
+        rb2.linearVelocity = velocidad;
+        
     }
     void Saltar()
     {
-        if (colisones.Suelo())
+        if (colisones.Suelo() && !isjumping)
         {
-            Vector2 fuezadesalto = new Vector2(0, 10f);
+            isjumping = true;
+            Vector2 fuezadesalto = new Vector2(0, fuerzadesalto);
             rb2.AddForce(fuezadesalto, ForceMode2D.Impulse);
 
         }

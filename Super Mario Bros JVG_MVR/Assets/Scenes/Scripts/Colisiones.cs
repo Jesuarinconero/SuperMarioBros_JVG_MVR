@@ -9,6 +9,12 @@ public class Colisiones : MonoBehaviour
     public float suelocheckeadoRadio;
     public LayerMask sueloLayer;
 
+    BoxCollider2D cold2d;
+    private void Awake()
+    {
+        cold2d = GetComponent<BoxCollider2D>();
+    }
+
 
     void Start()
     {
@@ -23,8 +29,26 @@ public class Colisiones : MonoBehaviour
     public bool Suelo()
     {
         //Nos comunica si colisiona con el suelo o no
-        colisionesconelsuelo = Physics2D.OverlapCircle(checkearsuelo.position, suelocheckeadoRadio, sueloLayer);
-        return colisionesconelsuelo;
+        // colisionesconelsuelo = Physics2D.OverlapCircle(checkearsuelo.position, suelocheckeadoRadio, sueloLayer);
+        Vector2 piesizquierdo = new Vector2(cold2d.bounds.center.x - cold2d.bounds.extents.x , cold2d.bounds.center.y);
+        Vector2 piesDerecho = new Vector2(cold2d.bounds.center.x + cold2d.bounds.extents.x , cold2d.bounds.center.y);
+
+        
+        Debug.DrawRay(piesizquierdo,Vector2.down * cold2d.bounds.extents.y*1.5f,Color.magenta);
+        Debug.DrawRay(piesDerecho, Vector2.down * cold2d.bounds.extents.y * 1.5f, Color.magenta);
+        if(Physics2D.Raycast(piesizquierdo,Vector2.down, cold2d.bounds.extents.y * 1.5f , sueloLayer))
+        {
+            colisionesconelsuelo = true;
+        }
+        else if(Physics2D.Raycast(piesDerecho, Vector2.down, cold2d.bounds.extents.y * 1.5f, sueloLayer))
+        {
+            colisionesconelsuelo = true;
+        }
+        else
+        {
+            colisionesconelsuelo = false;
+        }
+            return colisionesconelsuelo;
     }
     private void FixedUpdate()
 
