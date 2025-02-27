@@ -21,6 +21,7 @@ public class Mover : MonoBehaviour
     public bool isSkidding;
     float saltotimer = 0;
     float defaultgravedad;
+    public bool inputMoveEnable = true;
 
     animaciones animaciones;
 
@@ -91,24 +92,30 @@ public class Mover : MonoBehaviour
         {
             transform.Translate(0, -velocidad * Time.deltaTime, 0);
         }*/
-        if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
+        if (inputMoveEnable)
         {
-            if (suelo)
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
             {
-                Saltar();
+                if (suelo)
+                {
+                    Saltar();
+                }
+
             }
-          
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            {
+                // transform.Translate(-velocidad * Time.deltaTime, 0, 0);
+                currentDirection = Direccion.Left;
+            }
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            {
+                // transform.Translate(velocidad * Time.deltaTime, 0, 0);
+                currentDirection = Direccion.Right;
+            }
+
         }
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-        {
-            // transform.Translate(-velocidad * Time.deltaTime, 0, 0);
-            currentDirection = Direccion.Left;
-        }
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        {
-            // transform.Translate(velocidad * Time.deltaTime, 0, 0);
-            currentDirection = Direccion.Right;
-        }
+    
+   
 
     }
     private void FixedUpdate()
@@ -191,4 +198,16 @@ public class Mover : MonoBehaviour
 
 
     }
+    public void Dead()
+    {
+        inputMoveEnable = false;
+        rb2.linearVelocity = Vector2.zero;
+        rb2.gravityScale = 1;
+        rb2.AddForce(Vector2.up*5 , ForceMode2D.Impulse);
+     }
+    public void BounceUp()
+    {
+        rb2.linearVelocity = Vector2.zero;
+        rb2.AddForce(Vector2.up*10f, ForceMode2D.Impulse);
+     }
 }

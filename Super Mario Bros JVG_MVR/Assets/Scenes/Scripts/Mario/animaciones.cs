@@ -43,4 +43,8 @@ public class animaciones : MonoBehaviour
 
         animatior.SetBool("deslizarse", isSkidding);
     }
+    public void Dead()
+    {
+        animatior.SetTrigger("death");
+    }
 }

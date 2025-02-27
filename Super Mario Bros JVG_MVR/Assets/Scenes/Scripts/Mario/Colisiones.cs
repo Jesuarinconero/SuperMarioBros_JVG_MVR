@@ -8,11 +8,15 @@ public class Colisiones : MonoBehaviour
     public Transform checkearsuelo;
     public float suelocheckeadoRadio;
     public LayerMask sueloLayer;
+    Mario mario;
+    Mover mover;
 
     BoxCollider2D cold2d;
     private void Awake()
     {
         cold2d = GetComponent<BoxCollider2D>();
+        mario = GetComponent<Mario>();
+        mover = GetComponent<Mover>();
     }
 
 
@@ -55,39 +59,25 @@ public class Colisiones : MonoBehaviour
     {
         colisionesconelsuelo = Physics2D.OverlapCircle(checkearsuelo.position, suelocheckeadoRadio, sueloLayer);
     }
-   /* private void OnCollisionEnter2D(Collision2D collision)
+    public void Dead()
     {
-        if (collision.gameObject.CompareTag("pipe"))
+        gameObject.layer = LayerMask.NameToLayer("Playerdeath");
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            Debug.Log("Toco la tuberia de tu puta madre :=)");
-
-            
-        }else if (collision.gameObject.CompareTag("suelo"))
-        {
-            Debug.Log("Toco el suelo de tu puta madre :=)");
+            mario.Hit();
         }
     }
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "pipe")
+        PlayerHit playerHit = collision.GetComponent<PlayerHit>();
+        if(playerHit != null)
         {
-            Debug.Log("Toco la tuberia de tu puta madre :=)");
-
-
+            playerHit.Hit();
+            mover.BounceUp();
         }
-        
     }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("pipe"))
-        {
-            Debug.Log("Dejo de tocar la tuberia de tu puta madre  :=)");
 
-
-        }
-        else if (collision.gameObject.CompareTag("suelo"))
-        {
-            Debug.Log("Dejo de tocar  el suelo de tu puta madre :=)");
-        }
-    }*/
 }
