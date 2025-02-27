@@ -7,6 +7,7 @@ public class Mario : MonoBehaviour
     Colisiones colisiones;
     animaciones animaciones;
     Rigidbody2D rb2d;
+    bool isDead; 
     private void Awake()
     {
         mover = GetComponent<Mover>();
@@ -16,7 +17,7 @@ public class Mario : MonoBehaviour
     }
     private void Update()
     {
-        if(rb2d.linearVelocity.y <0)
+        if(rb2d.linearVelocity.y <0 && !isDead)
         {
             pisotear.SetActive(true);
         }
@@ -34,8 +35,13 @@ public class Mario : MonoBehaviour
     }
     public void Dead()
     {
-        colisiones.Dead();
-        mover.Dead();
-        animaciones.Dead();
+        if(!isDead )
+        {
+            isDead = true;
+            colisiones.Dead();
+            mover.Dead();
+            animaciones.Dead();
+        }
+      
     }
 }
