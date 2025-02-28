@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class Mario : MonoBehaviour
 {
-    enum State { Default = 0 , Super = 1 , Fire =  2}
+    enum State { Default = 0, Super = 1, Fire = 2 }
     State currentState = State.Default;
     public GameObject pisotear;
     Mover mover;
     Colisiones colisiones;
     animaciones animaciones;
     Rigidbody2D rb2d;
-    bool isDead; 
+    bool isDead;
+    ItemType itemtype;
     private void Awake()
     {
         mover = GetComponent<Mover>();
@@ -19,7 +20,7 @@ public class Mario : MonoBehaviour
     }
     private void Update()
     {
-        if(rb2d.linearVelocity.y <0 && !isDead)
+        if (rb2d.linearVelocity.y < 0 && !isDead)
         {
             pisotear.SetActive(true);
         }
@@ -42,7 +43,7 @@ public class Mario : MonoBehaviour
     public void Hit()
     {
         //Debug.Log("Choco con el woomba de tu puta madre :=)");
-        if(currentState == State.Default)
+        if (currentState == State.Default)
         {
             Dead();
         }
@@ -50,23 +51,46 @@ public class Mario : MonoBehaviour
         {
             animaciones.Hit();
         }
-   
+
     }
     public void Dead()
     {
-        if(!isDead )
+        if (!isDead)
         {
             isDead = true;
             colisiones.Dead();
             mover.Dead();
             animaciones.Dead();
         }
-      
+
     }
     void Changestate(int newStage)
     {
         currentState = (State)newStage;
         animaciones.NewState(newStage);
         Time.timeScale = 1;
+    }
+    public void CatchItem(ItemType itemtype)
+    {
+        switch (itemtype)
+        {
+            case ItemType.MagicMushroom:
+                if (currentState == State.Default)
+                {
+                    Time.timeScale = 0;
+                    animaciones.PoweUp();
+                }
+                break;
+            case ItemType.FireFlower:
+                break;
+            case ItemType.Coin:
+                break;
+            case ItemType.Life:
+                break;
+            case ItemType.Star:
+                break;
+            default:
+                break;
+        }
     }
 }
