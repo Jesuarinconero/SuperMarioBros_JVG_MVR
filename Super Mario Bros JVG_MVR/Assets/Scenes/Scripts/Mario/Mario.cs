@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Mario : MonoBehaviour
 {
-    enum State { Default = 0 , Super = 1}
+    enum State { Default = 0 , Super = 1 , Fire =  2}
     State currentState = State.Default;
     public GameObject pisotear;
     Mover mover;
