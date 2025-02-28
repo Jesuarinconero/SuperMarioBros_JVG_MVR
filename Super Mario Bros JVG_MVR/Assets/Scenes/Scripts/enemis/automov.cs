@@ -60,7 +60,7 @@ public class movimientoWoomba : MonoBehaviour
     {
         if (!movimientoenpausa)
         {
-            currentDirection = rb2d.velocity.normalized;
+            currentDirection = rb2d.linearVelocity.normalized;
             lastvelocidad = rb2d.linearVelocity;
             movimientoenpausa = true;
             rb2d.linearVelocity = new Vector2(0, 0);

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Mario : MonoBehaviour
 {
+    enum State { Default = 0 , Super = 1}
+    State currentState = State.Default;
     public GameObject pisotear;
     Mover mover;
     Colisiones colisiones;
@@ -25,13 +27,30 @@ public class Mario : MonoBehaviour
         {
             pisotear.SetActive(false);
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Time.timeScale = 0;
+            animaciones.PoweUp();
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Time.timeScale = 0;
+            animaciones.Hit();
+        }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Hit()
     {
         //Debug.Log("Choco con el woomba de tu puta madre :=)");
-
-        Dead();
+        if(currentState == State.Default)
+        {
+            Dead();
+        }
+        else
+        {
+            animaciones.Hit();
+        }
+   
     }
     public void Dead()
     {
@@ -43,5 +62,11 @@ public class Mario : MonoBehaviour
             animaciones.Dead();
         }
       
+    }
+    void Changestate(int newStage)
+    {
+        currentState = (State)newStage;
+        animaciones.NewState(newStage);
+        Time.timeScale = 1;
     }
 }

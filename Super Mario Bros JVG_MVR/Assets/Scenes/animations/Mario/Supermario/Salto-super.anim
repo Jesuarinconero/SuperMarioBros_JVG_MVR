@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Muerte
+  m_Name: Salto-super
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,7 +21,7 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -4300721584263116383, guid: 3c545962fea6ee040ac447d100252b0f, type: 3}
+      value: {fileID: -7630454244041106559, guid: fff59d0b3907a03459fd8d8e70493b49, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,7 +44,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -4300721584263116383, guid: 3c545962fea6ee040ac447d100252b0f, type: 3}
+    - {fileID: -7630454244041106559, guid: fff59d0b3907a03459fd8d8e70493b49, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

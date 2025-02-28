@@ -47,4 +47,16 @@ public class animaciones : MonoBehaviour
     {
         animatior.SetTrigger("death");
     }
+    public void NewState(int state)
+    {
+        animatior.SetInteger("States", state);
+    }
+    public void PoweUp()
+    {
+        animatior.SetTrigger("PowerUp");
+    }
+    public void Hit()
+    {
+        animatior.SetTrigger("Hit");
+    }
 }
