@@ -10,6 +10,8 @@ public class Mario : MonoBehaviour
     animaciones animaciones;
     Rigidbody2D rb2d;
     bool isDead;
+
+
     ItemType itemtype;
     private void Awake()
     {
@@ -93,4 +95,5 @@ public class Mario : MonoBehaviour
                 break;
         }
     }
+
 }

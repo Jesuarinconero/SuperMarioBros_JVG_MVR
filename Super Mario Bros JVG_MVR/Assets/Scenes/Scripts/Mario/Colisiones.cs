@@ -11,6 +11,7 @@ public class Colisiones : MonoBehaviour
     Mario mario;
     Mover mover;
 
+
     BoxCollider2D cold2d;
     private void Awake()
     {
