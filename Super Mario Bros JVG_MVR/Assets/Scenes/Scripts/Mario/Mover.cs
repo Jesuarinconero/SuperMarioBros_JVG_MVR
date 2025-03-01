@@ -23,6 +23,7 @@ public class Mover : MonoBehaviour
     float defaultgravedad;
     public bool inputMoveEnable = true;
 
+    public GameObject headBox;
     animaciones animaciones;
 
 
@@ -48,6 +49,7 @@ public class Mover : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        headBox.SetActive(false);
         bool suelo = colisones.Suelo();
         animaciones.Grounded(suelo);
 
@@ -65,6 +67,7 @@ public class Mover : MonoBehaviour
             }
              if (rb2.linearVelocity.y > 0f)
             {
+                headBox.SetActive(true);
                 if(Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow))
                 {
                     saltotimer += Time.deltaTime;

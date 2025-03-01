@@ -6,6 +6,7 @@ TagManager:
   tags:
   - pipe
   - suelo
+  - CabezaMario
   layers:
   - Default
   - TransparentFX

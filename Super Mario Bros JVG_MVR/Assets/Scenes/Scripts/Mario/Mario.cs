@@ -11,7 +11,7 @@ public class Mario : MonoBehaviour
     Rigidbody2D rb2d;
     bool isDead;
 
-
+    //public GameObject headBox;
     ItemType itemtype;
     private void Awake()
     {
@@ -30,6 +30,14 @@ public class Mario : MonoBehaviour
         {
             pisotear.SetActive(false);
         }
+        /*if (rb2d.linearVelocity.y > 0 && !isDead)
+        {
+            headBox.SetActive(true);
+        }
+        else
+        {
+            headBox.SetActive(false);
+        }*/
         if (Input.GetKeyDown(KeyCode.P))
         {
             Time.timeScale = 0;

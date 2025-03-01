@@ -6,7 +6,7 @@ public class SpritesAnimation : MonoBehaviour
     public Sprite[] sprites;
     public float frameTime = 0.1f;
 
-    private float timer = 0f;
+    //private float timer = 0f;
     private int animationFrame = 0;
 
     private SpriteRenderer spriteRenderer;
