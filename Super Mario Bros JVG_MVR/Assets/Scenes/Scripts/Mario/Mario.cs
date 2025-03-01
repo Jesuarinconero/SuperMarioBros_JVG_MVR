@@ -84,8 +84,14 @@ public class Mario : MonoBehaviour
                 }
                 break;
             case ItemType.FireFlower:
+                if(currentState != State.Fire)
+                {
+                    Time.timeScale = 0;
+                    animaciones.PoweUp();
+                }
                 break;
             case ItemType.Coin:
+                Debug.Log("Monedita");
                 break;
             case ItemType.Life:
                 break;
