@@ -7,7 +7,9 @@ public class Koopa : Enemy
     public float maximotime;
 
     float stompedTimer;
-    public float rolling; 
+    public float rolling;
+
+    public bool isRollling;
 
     protected override void Update()
     {
@@ -22,8 +24,10 @@ public class Koopa : Enemy
         }
    
     }
+
     public override void Stomped( Transform p)
     {
+        isRollling = false;
         if (!ishidden)
         {
             ishidden = true;
@@ -48,6 +52,7 @@ public class Koopa : Enemy
                     movimientoWoomba.velocidad = -rolling;
                 }
                 movimientoWoomba.ContinuarMovimiento(new Vector2(movimientoWoomba.velocidad, 0f));
+                isRollling = true;
             }
        
  
@@ -56,6 +61,17 @@ public class Koopa : Enemy
 
         Invoke("ResetLayer", 0.1f);
         stompedTimer = 0;
+    }
+    public override void HitRollingShell()
+    {
+        if (!isRollling)
+        {
+            FlipDie();
+        }
+        else
+        {
+            movimientoWoomba.ContinuarMovimiento();
+        }
     }
     void ResetLayer()
     {
@@ -68,6 +84,17 @@ public class Koopa : Enemy
         ishidden = false;
         animator.SetBool("hidden", ishidden);
         stompedTimer = 0;
+
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isRollling)
+        {
+            if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy")){
+
+                collision.gameObject.GetComponent<Enemy>().HitRollingShell();
+            }
+        }
     }
 }
 

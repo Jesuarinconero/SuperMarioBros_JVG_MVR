@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using NUnit.Framework;
 
 public class Block : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class Block : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     private SpritesAnimation spritesAnimationScript;  // Referencia a la animación de sprites
+
+   
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>(); // Referencia al SpriteRenderer

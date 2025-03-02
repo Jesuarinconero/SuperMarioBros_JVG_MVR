@@ -63,6 +63,23 @@ public class Colisiones : MonoBehaviour
     public void Dead()
     {
         gameObject.layer = LayerMask.NameToLayer("Playerdeath");
+        foreach(Transform t in transform)
+        {
+            t.gameObject.layer = LayerMask.NameToLayer("Playerdeath");
+        }
+    }
+    public void HurtColision(bool activate)
+    {
+        if (activate)
+        {
+            gameObject.layer = LayerMask.NameToLayer("OnlyGround");
+            transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("OnlyGround");
+        }
+        else
+        {
+            gameObject.layer = LayerMask.NameToLayer("Player");
+            transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("Player");
+        }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -84,8 +101,16 @@ public class Colisiones : MonoBehaviour
         Enemy enemy = collision.GetComponent<Enemy>();
         if (enemy != null)
         {
-            enemy.Stomped(transform);
-            mover.BounceUp();
+            if (collision.CompareTag("Planta"))
+            {
+                mario.Hit();
+            }
+            else
+            {
+                enemy.Stomped(transform);
+                mover.BounceUp();
+            }
+       
         }
     }
 }

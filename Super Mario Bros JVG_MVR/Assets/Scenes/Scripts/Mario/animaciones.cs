@@ -63,4 +63,8 @@ public class animaciones : MonoBehaviour
     {
         animatior.SetTrigger("Shoot");
     }
+    public void Hurt(bool activate)
+    {
+        animatior.SetBool("Hurt", activate);
+    }
 }

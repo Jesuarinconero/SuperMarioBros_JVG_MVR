@@ -12,6 +12,10 @@ public class Mario : MonoBehaviour
     bool isDead;
     public GameObject firewallPrefab;
     public Transform Shootpos;
+    public bool isHurt;
+    public float hurtTime;
+    float hurtTimer;
+
 
     //public GameObject headBox;
     ItemType itemtype;
@@ -38,6 +42,15 @@ public class Mario : MonoBehaviour
             {
                 Shoot();
             }
+
+        }
+        if (isHurt)
+        {
+            hurtTimer -= Time.deltaTime;
+            if (hurtTimer <= 0)
+            {
+                endHurt();
+            }
         }
    
         /*if (rb2d.linearVelocity.y > 0 && !isDead)
@@ -60,12 +73,28 @@ public class Mario : MonoBehaviour
         }
         else
         {
+            Time.timeScale = 0;
             animaciones.Hit();
+            StartHurt();
         }
 
     }
+ void StartHurt()
+    {
+        isHurt = true;
+        animaciones.Hurt(true);
+        hurtTimer = hurtTime;
+        colisiones.HurtColision(true);
+    }
+    void endHurt()
+    {
+        isHurt = false;
+        animaciones.Hurt(false);
+        colisiones.HurtColision(false);
+    }
     public void Dead()
     {
+    
         if (!isDead)
         {
             isDead = true;

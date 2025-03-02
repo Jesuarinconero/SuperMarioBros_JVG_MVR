@@ -24,8 +24,11 @@ public class Enemy : MonoBehaviour
     {
         FlipDie();
     }
-
-    void FlipDie()
+    public virtual void HitRollingShell()
+    {
+        FlipDie();
+    }
+    public void FlipDie()
     {
         animator.SetTrigger("Flip");
         rb2d.linearVelocity = Vector2.zero;
