@@ -8,6 +8,7 @@ public class SpritesAnimation : MonoBehaviour
 
     private int animationFrame = 0;
     private SpriteRenderer spriteRenderer;
+    public bool loop = true;
 
     public bool isAnimating = true;  // Controla si la animación sigue funcionando
 
@@ -23,18 +24,32 @@ public class SpritesAnimation : MonoBehaviour
 
     IEnumerator Animation()
     {
-        while (isAnimating) // Solo ejecuta la animación si isAnimating es true
+        if (loop)
         {
-            spriteRenderer.sprite = sprites[animationFrame];
-            animationFrame++;
-
-            if (animationFrame >= sprites.Length)
+            while (isAnimating) // Solo ejecuta la animación si isAnimating es true
             {
-                animationFrame = 0;
-            }
+                spriteRenderer.sprite = sprites[animationFrame];
+                animationFrame++;
 
-            yield return new WaitForSeconds(frameTime);
+                if (animationFrame >= sprites.Length)
+                {
+                    animationFrame = 0;
+                }
+
+                yield return new WaitForSeconds(frameTime);
+            }
         }
+        else
+        {
+            while (animationFrame < sprites.Length)
+            {
+                spriteRenderer.sprite = sprites[animationFrame];
+                animationFrame++;
+                yield return new WaitForSeconds(frameTime);
+            }
+            Destroy(gameObject);
+        }
+  
     }
 
     // Método para detener la animación

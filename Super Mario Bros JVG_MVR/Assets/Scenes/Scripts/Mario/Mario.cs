@@ -10,6 +10,8 @@ public class Mario : MonoBehaviour
     animaciones animaciones;
     Rigidbody2D rb2d;
     bool isDead;
+    public GameObject firewallPrefab;
+    public Transform Shootpos;
 
     //public GameObject headBox;
     ItemType itemtype;
@@ -22,14 +24,22 @@ public class Mario : MonoBehaviour
     }
     private void Update()
     {
-        if (rb2d.linearVelocity.y < 0 && !isDead)
+        if (!isDead)
         {
-            pisotear.SetActive(true);
+            if (rb2d.linearVelocity.y < 0 && !isDead)
+            {
+                pisotear.SetActive(true);
+            }
+            else
+            {
+                pisotear.SetActive(false);
+            }
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                Shoot();
+            }
         }
-        else
-        {
-            pisotear.SetActive(false);
-        }
+   
         /*if (rb2d.linearVelocity.y > 0 && !isDead)
         {
             headBox.SetActive(true);
@@ -38,16 +48,7 @@ public class Mario : MonoBehaviour
         {
             headBox.SetActive(false);
         }*/
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Time.timeScale = 0;
-            animaciones.PoweUp();
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Time.timeScale = 0;
-            animaciones.Hit();
-        }
+  
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Hit()
@@ -107,6 +108,15 @@ public class Mario : MonoBehaviour
                 break;
             default:
                 break;
+        }
+    }
+    void Shoot()
+    {
+        if (currentState == State.Fire)
+        {
+            GameObject nuevaboladefuego = Instantiate(firewallPrefab, Shootpos.position, Quaternion.identity);
+            nuevaboladefuego.GetComponent<Firewall>().direction = transform.localScale.x;
+            animaciones.Shoot();
         }
     }
 

@@ -59,4 +59,8 @@ public class animaciones : MonoBehaviour
     {
         animatior.SetTrigger("Hit");
     }
+    public void Shoot()
+    {
+        animatior.SetTrigger("Shoot");
+    }
 }
