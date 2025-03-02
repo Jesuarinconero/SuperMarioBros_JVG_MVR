@@ -10,6 +10,8 @@ public class movimientoWoomba : MonoBehaviour
     Vector2 currentDirection;
     float defaultSpeed;
 
+    public bool flipSprite = true;
+
     private void Awake()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -30,16 +32,17 @@ public class movimientoWoomba : MonoBehaviour
                 velocidad = -velocidad;
             }
             rb2d.linearVelocity = new Vector2(velocidad, rb2d.linearVelocity.y);
-            if (rb2d.linearVelocity.x > 0)
-            {
-                spriterender.flipX = true;
+            if (flipSprite) { 
+                if (rb2d.linearVelocity.x > 0)
+                {
+                    spriterender.flipX = true;
 
+                }
+                else
+                {
+                    spriterender.flipX = false;
+                }
             }
-            else
-            {
-                spriterender.flipX = false;
-            }
-            
 
             
         }

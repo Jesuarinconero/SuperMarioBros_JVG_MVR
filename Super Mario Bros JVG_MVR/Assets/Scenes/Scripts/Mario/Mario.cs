@@ -2,14 +2,19 @@ using UnityEngine;
 
 public class Mario : MonoBehaviour
 {
-    enum State { Default = 0 , Super = 1 , Fire =  2}
+    enum State { Default = 0, Super = 1, Fire = 2 }
     State currentState = State.Default;
     public GameObject pisotear;
     Mover mover;
     Colisiones colisiones;
     animaciones animaciones;
     Rigidbody2D rb2d;
-    bool isDead; 
+    bool isDead;
+    public GameObject firewallPrefab;
+    public Transform Shootpos;
+
+    //public GameObject headBox;
+    ItemType itemtype;
     private void Awake()
     {
         mover = GetComponent<Mover>();
@@ -19,30 +24,37 @@ public class Mario : MonoBehaviour
     }
     private void Update()
     {
-        if(rb2d.linearVelocity.y <0 && !isDead)
+        if (!isDead)
         {
-            pisotear.SetActive(true);
+            if (rb2d.linearVelocity.y < 0 && !isDead)
+            {
+                pisotear.SetActive(true);
+            }
+            else
+            {
+                pisotear.SetActive(false);
+            }
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                Shoot();
+            }
+        }
+   
+        /*if (rb2d.linearVelocity.y > 0 && !isDead)
+        {
+            headBox.SetActive(true);
         }
         else
         {
-            pisotear.SetActive(false);
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Time.timeScale = 0;
-            animaciones.PoweUp();
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            Time.timeScale = 0;
-            animaciones.Hit();
-        }
+            headBox.SetActive(false);
+        }*/
+  
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Hit()
     {
         //Debug.Log("Choco con el woomba de tu puta madre :=)");
-        if(currentState == State.Default)
+        if (currentState == State.Default)
         {
             Dead();
         }
@@ -50,18 +62,18 @@ public class Mario : MonoBehaviour
         {
             animaciones.Hit();
         }
-   
+
     }
     public void Dead()
     {
-        if(!isDead )
+        if (!isDead)
         {
             isDead = true;
             colisiones.Dead();
             mover.Dead();
             animaciones.Dead();
         }
-      
+
     }
     void Changestate(int newStage)
     {
@@ -69,4 +81,43 @@ public class Mario : MonoBehaviour
         animaciones.NewState(newStage);
         Time.timeScale = 1;
     }
+    public void CatchItem(ItemType itemtype)
+    {
+        switch (itemtype)
+        {
+            case ItemType.MagicMushroom:
+                if (currentState == State.Default)
+                {
+                    Time.timeScale = 0;
+                    animaciones.PoweUp();
+                }
+                break;
+            case ItemType.FireFlower:
+                if(currentState != State.Fire)
+                {
+                    Time.timeScale = 0;
+                    animaciones.PoweUp();
+                }
+                break;
+            case ItemType.Coin:
+                Debug.Log("Monedita");
+                break;
+            case ItemType.Life:
+                break;
+            case ItemType.Star:
+                break;
+            default:
+                break;
+        }
+    }
+    void Shoot()
+    {
+        if (currentState == State.Fire)
+        {
+            GameObject nuevaboladefuego = Instantiate(firewallPrefab, Shootpos.position, Quaternion.identity);
+            nuevaboladefuego.GetComponent<Firewall>().direction = transform.localScale.x;
+            animaciones.Shoot();
+        }
+    }
+
 }

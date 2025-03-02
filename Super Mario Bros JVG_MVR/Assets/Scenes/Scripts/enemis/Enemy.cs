@@ -20,6 +20,22 @@ public class Enemy : MonoBehaviour
     {
 
     }
+    public virtual void HitFireball()
+    {
+        FlipDie();
+    }
 
- 
+    void FlipDie()
+    {
+        animator.SetTrigger("Flip");
+        rb2d.linearVelocity = Vector2.zero;
+        rb2d.AddForce(Vector2.up * 6, ForceMode2D.Impulse);
+        if (movimientoWoomba != null)
+        {
+            movimientoWoomba.enabled = true;
+        }
+        GetComponent<Collider2D>().enabled = false;  
+    }
+
+
 }

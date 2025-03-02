@@ -6,6 +6,7 @@ TagManager:
   tags:
   - pipe
   - suelo
+  - CabezaMario
   layers:
   - Default
   - TransparentFX
@@ -13,13 +14,13 @@ TagManager:
   - 
   - Water
   - UI
-  - 'Player '
+  - Player
   - Ground
   - Enemy
   - Playerdeath
   - OnlyGround
-  - 
-  - 
+  - Item
+  - PlayerShot
   - 
   - 
   - 
