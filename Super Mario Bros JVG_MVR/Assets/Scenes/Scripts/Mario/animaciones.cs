@@ -67,4 +67,9 @@ public class animaciones : MonoBehaviour
     {
         animatior.SetBool("Hurt", activate);
     }
+    public void Agacharse(bool activate)
+    {
+        animatior.SetBool("agachado", activate);
+    }
+
 }

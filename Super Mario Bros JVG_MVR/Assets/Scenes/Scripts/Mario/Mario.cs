@@ -16,7 +16,7 @@ public class Mario : MonoBehaviour
     public float hurtTime;
     float hurtTimer;
 
-
+    public bool isAgachado;
     //public GameObject headBox;
     ItemType itemtype;
     private void Awake()
@@ -28,6 +28,7 @@ public class Mario : MonoBehaviour
     }
     private void Update()
     {
+        isAgachado = false;
         if (!isDead)
         {
             if (rb2d.linearVelocity.y < 0 && !isDead)
@@ -38,6 +39,16 @@ public class Mario : MonoBehaviour
             {
                 pisotear.SetActive(false);
             }
+
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                if (colisiones.Suelo())
+                {
+                    isAgachado = true;
+                }
+            }
+
+
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 Shoot();
@@ -52,7 +63,9 @@ public class Mario : MonoBehaviour
                 endHurt();
             }
         }
-   
+        animaciones.Agacharse(isAgachado);
+
+
         /*if (rb2d.linearVelocity.y > 0 && !isDead)
         {
             headBox.SetActive(true);
@@ -61,7 +74,7 @@ public class Mario : MonoBehaviour
         {
             headBox.SetActive(false);
         }*/
-  
+
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Hit()

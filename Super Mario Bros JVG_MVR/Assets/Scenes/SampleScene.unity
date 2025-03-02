@@ -2644,6 +2644,7 @@ MonoBehaviour:
   Shootpos: {fileID: 432104260}
   isHurt: 0
   hurtTime: 5
+  isAgachado: 0
 --- !u!1 &1592057410
 GameObject:
   m_ObjectHideFlags: 0

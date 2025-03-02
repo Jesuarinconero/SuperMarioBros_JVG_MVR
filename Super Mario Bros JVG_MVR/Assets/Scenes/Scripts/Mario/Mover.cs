@@ -29,13 +29,14 @@ public class Mover : MonoBehaviour
 
 
 
-
+    Mario mario;
 
     private void Awake()
     {
         rb2 = GetComponent<Rigidbody2D>();
         colisones = GetComponent<Colisiones>();
         animaciones = GetComponent<animaciones>();
+        mario = GetComponent<Mario>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -172,6 +173,11 @@ public class Mover : MonoBehaviour
                 currentVelocidad = 0;
             }
         }
+        if (mario.isAgachado)
+        {
+            currentVelocidad = 0;
+        }
+
         Vector2 velocidad = new Vector2(currentVelocidad, rb2.linearVelocity.y);
         rb2.linearVelocity = velocidad;
         animaciones.Velocidad(Mathf.Abs(currentVelocidad));
