@@ -15,6 +15,7 @@ public class Mario : MonoBehaviour
     public bool isHurt;
     public float hurtTime;
     float hurtTimer;
+    public bool levelfinish;
 
     public bool isAgachado;
     //public GameObject headBox;
@@ -160,6 +161,11 @@ public class Mario : MonoBehaviour
             nuevaboladefuego.GetComponent<Firewall>().direction = transform.localScale.x;
             animaciones.Shoot();
         }
+    }
+    public void Goal()
+    {
+        mover.DownFlagPole();
+        levelfinish = true;
     }
 
 }

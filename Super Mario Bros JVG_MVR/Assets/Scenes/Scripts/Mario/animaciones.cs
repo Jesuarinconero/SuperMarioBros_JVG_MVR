@@ -71,5 +71,16 @@ public class animaciones : MonoBehaviour
     {
         animatior.SetBool("agachado", activate);
     }
-
+    public void Climb (bool activate)
+    {
+        animatior.SetBool("Climb", activate);
+    }
+    public void Pause()
+    {
+        animatior.speed = 0;
+    }
+    public void Continue()
+    {
+        animatior.speed = 1;
+    }
 }

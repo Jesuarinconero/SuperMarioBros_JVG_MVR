@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Mover : MonoBehaviour
@@ -25,6 +27,17 @@ public class Mover : MonoBehaviour
 
     public GameObject headBox;
     animaciones animaciones;
+    bool isClibingFlag = false;
+
+    public float climbPoleSpeed = 5;
+
+    bool isAutowalk;
+    public float autowalkSpeed = 5f;
+
+    public bool isFlagFDown;
+
+
+
 
 
 
@@ -50,74 +63,87 @@ public class Mover : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        headBox.SetActive(false);
+   
         bool suelo = colisones.Suelo();
         animaciones.Grounded(suelo);
-
-        if (isjumping)
+        if (mario.levelfinish)
         {
-            if(rb2.linearVelocity.y <= 0f)
+            if (suelo && isClibingFlag)
             {
-                rb2.gravityScale = defaultgravedad;
-                if (suelo)
-                {
-                    isjumping = false;
-                    saltotimer = 0;
-                    animaciones.Salto(false);
-                }
+                StartCoroutine(JumpOffPole()); 
             }
-             if (rb2.linearVelocity.y > 0f)
+
+        }
+        else
+        {
+            headBox.SetActive(false);
+            if (isjumping)
             {
-                headBox.SetActive(true);
-                if(Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow))
+                if (rb2.linearVelocity.y <= 0f)
                 {
-                    saltotimer += Time.deltaTime;
-                }
-                if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.UpArrow))
-                {
-                    if (saltotimer < maximosalto)
+                    rb2.gravityScale = defaultgravedad;
+                    if (suelo)
                     {
-                        rb2.gravityScale = defaultgravedad * 3f;
+                        isjumping = false;
+                        saltotimer = 0;
+                        animaciones.Salto(false);
                     }
                 }
+                if (rb2.linearVelocity.y > 0f)
                 {
+                    headBox.SetActive(true);
+                    if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow))
+                    {
+                        saltotimer += Time.deltaTime;
+                    }
+                    if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.UpArrow))
+                    {
+                        if (saltotimer < maximosalto)
+                        {
+                            rb2.gravityScale = defaultgravedad * 3f;
+                        }
+                    }
+                    {
 
+                    }
                 }
             }
-        }
 
-        currentDirection = Direccion.None;
-        /*
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-        {
-            transform.Translate(0, velocidad*Time.deltaTime, 0);
-        }
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-        {
-            transform.Translate(0, -velocidad * Time.deltaTime, 0);
-        }*/
-        if (inputMoveEnable)
-        {
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
+            currentDirection = Direccion.None;
+            /*
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
-                if (suelo)
+                transform.Translate(0, velocidad*Time.deltaTime, 0);
+            }
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            {
+                transform.Translate(0, -velocidad * Time.deltaTime, 0);
+            }*/
+            if (inputMoveEnable)
+            {
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
                 {
-                    Saltar();
+                    if (suelo)
+                    {
+                        Saltar();
+                    }
+
+                }
+                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+                {
+                    // transform.Translate(-velocidad * Time.deltaTime, 0, 0);
+                    currentDirection = Direccion.Left;
+                }
+                if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+                {
+                    // transform.Translate(velocidad * Time.deltaTime, 0, 0);
+                    currentDirection = Direccion.Right;
                 }
 
             }
-            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-            {
-                // transform.Translate(-velocidad * Time.deltaTime, 0, 0);
-                currentDirection = Direccion.Left;
-            }
-            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-            {
-                // transform.Translate(velocidad * Time.deltaTime, 0, 0);
-                currentDirection = Direccion.Right;
-            }
-
         }
+
+       
     
    
 
@@ -132,57 +158,81 @@ public class Mover : MonoBehaviour
   
         Vector2 movimiento = new Vector2(velocidadx, rb2.linearVelocity.y);
         rb2.linearVelocity = movimiento;*/
-        isSkidding = false;
-
-        currentVelocidad = rb2.linearVelocity.x;
-        if (currentDirection > 0)
+        if (mario.levelfinish)
         {
-
-            if (currentVelocidad < 0) {
-                currentVelocidad += ((aceleracion + friccion) * Time.deltaTime);
-                isSkidding = true;
-            }else if (currentVelocidad < maximavelocidad)
+            if (isClibingFlag)
             {
-                currentVelocidad += aceleracion * Time.deltaTime;
-                transform.localScale = new Vector2(1,1);
+                rb2.MovePosition(rb2.position + Vector2.down * climbPoleSpeed * Time.fixedDeltaTime);
+
+            }
+            else if (isAutowalk)
+            {
+                Vector2 velocity = new Vector2(currentVelocidad, rb2.velocity.y);
+                rb2.velocity = velocity;
+                animaciones.Velocidad(Mathf.Abs(currentVelocidad));
             }
         }
-        else if (currentDirection < 0)
-        {
-            if(currentVelocidad > 0)
-            {
-                currentVelocidad -= ((aceleracion + friccion) * Time.deltaTime);
-                isSkidding = true;
-            }
-            else if (currentVelocidad > -maximavelocidad)
-            {
-                currentVelocidad -= aceleracion * Time.deltaTime;
-                transform.localScale = new Vector2(-1,1);
-            }
-        }
+    
         else
         {
-            if (currentVelocidad > 1f)
+            isSkidding = false;
+
+
+            currentVelocidad = rb2.linearVelocity.x;
+            if (currentDirection > 0)
             {
-                currentVelocidad -= friccion * Time.deltaTime;
-            }else if (currentVelocidad < -1f)
+
+                if (currentVelocidad < 0)
+                {
+                    currentVelocidad += ((aceleracion + friccion) * Time.deltaTime);
+                    isSkidding = true;
+                }
+                else if (currentVelocidad < maximavelocidad)
+                {
+                    currentVelocidad += aceleracion * Time.deltaTime;
+                    transform.localScale = new Vector2(1, 1);
+                }
+            }
+            else if (currentDirection < 0)
             {
-                currentVelocidad += friccion * Time.deltaTime;
-            }else
+                if (currentVelocidad > 0)
+                {
+                    currentVelocidad -= ((aceleracion + friccion) * Time.deltaTime);
+                    isSkidding = true;
+                }
+                else if (currentVelocidad > -maximavelocidad)
+                {
+                    currentVelocidad -= aceleracion * Time.deltaTime;
+                    transform.localScale = new Vector2(-1, 1);
+                }
+            }
+            else
+            {
+                if (currentVelocidad > 1f)
+                {
+                    currentVelocidad -= friccion * Time.deltaTime;
+                }
+                else if (currentVelocidad < -1f)
+                {
+                    currentVelocidad += friccion * Time.deltaTime;
+                }
+                else
+                {
+                    currentVelocidad = 0;
+                }
+            }
+            if (mario.isAgachado)
             {
                 currentVelocidad = 0;
             }
-        }
-        if (mario.isAgachado)
-        {
-            currentVelocidad = 0;
-        }
 
-        Vector2 velocidad = new Vector2(currentVelocidad, rb2.linearVelocity.y);
-        rb2.linearVelocity = velocidad;
-        animaciones.Velocidad(Mathf.Abs(currentVelocidad));
+            Vector2 velocidad = new Vector2(currentVelocidad, rb2.linearVelocity.y);
+            rb2.linearVelocity = velocidad;
+            animaciones.Velocidad(Mathf.Abs(currentVelocidad));
 
-        animaciones.Deslizarse(isSkidding);
+            animaciones.Deslizarse(isSkidding);
+        }
+       
         
     }
     void Saltar()
@@ -216,7 +266,39 @@ public class Mover : MonoBehaviour
      }
     public void BounceUp()
     {
-        rb2.linearVelocity = Vector2.zero;
+        rb2.linearVelocity = Vector2.zero;  
         rb2.AddForce(Vector2.up*10f, ForceMode2D.Impulse);
      }
+    public void DownFlagPole()
+    {
+        inputMoveEnable = false;
+        rb2.isKinematic = true;
+        rb2.linearVelocity = new Vector2(0, 0);
+        isClibingFlag = true;
+        isjumping = false;
+        animaciones.Salto(false);
+        animaciones.Climb(true);
+
+
+    }
+    IEnumerator JumpOffPole()
+    {
+        isClibingFlag = false;
+        rb2.linearVelocity = Vector2.zero;
+        animaciones.Pause();
+        yield return new WaitForSeconds(0.25f);
+        transform.position = new Vector2(transform.position.x + 0.5f, transform.position.y);
+        GetComponent<SpriteRenderer>().flipX = true;
+        while (!isFlagFDown)
+        {
+            yield return null;
+        }
+        transform.position = new Vector2(transform.position.x + 0.5f, transform.position.y);
+        yield return new WaitForSeconds(0.25f);
+        animaciones.Climb(false);
+        rb2.isKinematic = false;
+        animaciones.Continue();
+        isAutowalk = true;
+        currentVelocidad = autowalkSpeed;
+    }
 }
