@@ -64,6 +64,7 @@ public class Block : MonoBehaviour
 
     IEnumerator BounceAnimation()
     {
+        AudioManager.Instance.PlayBump();
         bouncing = true;
         float time = 0;
         float duration = 0.1f;
@@ -96,17 +97,21 @@ public class Block : MonoBehaviour
     {
         if (itemPrefab != null)
         {
+            
             StartCoroutine(ShowItem());
         }
         else
         {
             // Si no hay itemPrefab, el bloque se destruye normal
+            AudioManager.Instance.PlayBreak();
+
             DestroyBlock();
         }
     }
 
     IEnumerator ShowItem()
     {
+        AudioManager.Instance.PlayPowerAppear();
         GameObject nuevoItem = Instantiate(itemPrefab, transform.position, Quaternion.identity);
 
         movimientoWoomba automovimiento = nuevoItem.GetComponent<movimientoWoomba>();

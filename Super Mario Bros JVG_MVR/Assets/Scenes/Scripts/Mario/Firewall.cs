@@ -54,6 +54,7 @@ public class Firewall : MonoBehaviour
     }
     void Explode (Vector2 point)
     {
+        AudioManager.Instance.PlayBump();
         Instantiate(explosion, point, Quaternion.identity);
         Destroy(gameObject);
     }

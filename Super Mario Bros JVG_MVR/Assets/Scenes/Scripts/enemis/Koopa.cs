@@ -27,6 +27,7 @@ public class Koopa : Enemy
 
     public override void Stomped( Transform p)
     {
+        AudioManager.Instance.PlayStomp();
         isRollling = false;
         if (!ishidden)
         {

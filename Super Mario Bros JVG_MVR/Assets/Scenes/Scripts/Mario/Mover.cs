@@ -239,10 +239,23 @@ public class Mover : MonoBehaviour
     {
         if ( !isjumping)
         {
-            isjumping = true;
-            Vector2 fuezadesalto = new Vector2(0, fuerzadesalto);
-            rb2.AddForce(fuezadesalto, ForceMode2D.Impulse);
-            animaciones.Salto(true);
+            if (mario.IsBig())
+            {
+                AudioManager.Instance.PlayBigJump();
+                isjumping = true;
+                Vector2 fuezadesalto = new Vector2(0, fuerzadesalto);
+                rb2.AddForce(fuezadesalto, ForceMode2D.Impulse);
+                animaciones.Salto(true);
+            }
+            else
+            {
+                AudioManager.Instance.PlayJump();
+                isjumping = true;
+                Vector2 fuezadesalto = new Vector2(0, fuerzadesalto);
+                rb2.AddForce(fuezadesalto, ForceMode2D.Impulse);
+                animaciones.Salto(true);
+            }
+           
 
         }
 
