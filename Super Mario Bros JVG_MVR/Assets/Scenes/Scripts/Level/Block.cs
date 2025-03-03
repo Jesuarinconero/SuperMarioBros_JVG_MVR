@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using NUnit.Framework;
+using Unity.VisualScripting;
 
 public class Block : MonoBehaviour
 {
@@ -12,12 +13,13 @@ public class Block : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     private SpritesAnimation spritesAnimationScript;  // Referencia a la animación de sprites
-
+    Mario mario;
    
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>(); // Referencia al SpriteRenderer
         spritesAnimationScript = GetComponent<SpritesAnimation>(); // Referencia al script de animación
+        mario = GetComponent<Mario>();
 
         if (spriteRenderer == null)
         {
@@ -105,7 +107,9 @@ public class Block : MonoBehaviour
             // Si no hay itemPrefab, el bloque se destruye normal
             AudioManager.Instance.PlayBreak();
 
-            DestroyBlock();
+                DestroyBlock();
+            
+         
         }
     }
 

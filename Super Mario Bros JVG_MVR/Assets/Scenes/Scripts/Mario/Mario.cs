@@ -175,6 +175,10 @@ public class Mario : MonoBehaviour
     {
         return currentState != State.Default;
     }
+    public bool isSmall()
+    {
+        return currentState == State.Default;
+    }
     public void Goal()
     {
         AudioManager.Instance.PlayFlagPole();
