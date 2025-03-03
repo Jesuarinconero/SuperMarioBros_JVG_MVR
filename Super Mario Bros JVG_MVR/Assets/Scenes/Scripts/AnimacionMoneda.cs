@@ -8,7 +8,7 @@ public class AnimacionMoneda : MonoBehaviour
  public float frameTime = 0.1f;
     Image image;
     int animationframe = 0;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Start is called once before the first execution of Update after the MonoBehaviour is created prueba de subida
     void Start()
     {
         
