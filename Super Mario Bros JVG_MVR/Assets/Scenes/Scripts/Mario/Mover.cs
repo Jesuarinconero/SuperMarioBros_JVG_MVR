@@ -167,8 +167,8 @@ public class Mover : MonoBehaviour
             }
             else if (isAutowalk)
             {
-                Vector2 velocity = new Vector2(currentVelocidad, rb2.velocity.y);
-                rb2.velocity = velocity;
+                Vector2 velocity = new Vector2(currentVelocidad, rb2.linearVelocity.y);
+                rb2.linearVelocity = velocity;
                 animaciones.Velocidad(Mathf.Abs(currentVelocidad));
             }
         }

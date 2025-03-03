@@ -143,6 +143,7 @@ public class Block : MonoBehaviour
 
     void DestroyBlock()
     {
+        ScoreManager.Instance.SumarPuntos(50);
         GameObject brickPiece;
         brickPiece = Instantiate(brickPiecePrefab, transform.position, Quaternion.identity);
         brickPiece.GetComponent<Rigidbody2D>().linearVelocity = new Vector2(3f, 12f);

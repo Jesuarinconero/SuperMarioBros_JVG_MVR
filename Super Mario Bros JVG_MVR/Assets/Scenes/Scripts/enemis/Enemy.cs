@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
     protected Animator animator;
     protected movimientoWoomba movimientoWoomba;
     protected Rigidbody2D rb2d;
+    public int puntos;
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
@@ -37,8 +38,12 @@ public class Enemy : MonoBehaviour
         {
             movimientoWoomba.enabled = true;
         }
-        GetComponent<Collider2D>().enabled = false;  
+        GetComponent<Collider2D>().enabled = false;
+        Dead();
     }
-
+    protected void Dead()
+    {
+        ScoreManager.Instance.SumarPuntos(puntos);
+    }
 
 }

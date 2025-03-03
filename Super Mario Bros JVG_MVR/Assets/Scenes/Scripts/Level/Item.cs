@@ -7,6 +7,7 @@ public class Item : MonoBehaviour
 {
     public ItemType type;
     bool isCatched;
+    public int puntos;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -16,7 +17,7 @@ public class Item : MonoBehaviour
             {
                 isCatched = true;
                 collision.gameObject.GetComponent<Mario>().CatchItem(type);
-                Destroy(gameObject);
+                CatchItem();
             }
         }
     }
@@ -36,9 +37,15 @@ public class Item : MonoBehaviour
             {
                 isCatched = true;
                 mario.CatchItem(type);
-                Destroy(gameObject);
+                CatchItem();    
             }
         }
+    }
+    void CatchItem()
+    {
+        ScoreManager.Instance.SumarPuntos(puntos);
+        Destroy(gameObject);
+
     }
 
 
