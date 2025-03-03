@@ -17,6 +17,7 @@ public class Mario : MonoBehaviour
     float hurtTimer;
     public bool levelfinish;
 
+    //public HUD hud;
     public bool isAgachado;
     //public GameObject headBox;
     ItemType itemtype;
@@ -152,6 +153,7 @@ public class Mario : MonoBehaviour
             case ItemType.Coin:
                 AudioManager.Instance.PlayCoin();
                 Debug.Log("Monedita");
+                LevelManager.Instance.AddCoins();
                 break;
             case ItemType.Life:
                 break;
