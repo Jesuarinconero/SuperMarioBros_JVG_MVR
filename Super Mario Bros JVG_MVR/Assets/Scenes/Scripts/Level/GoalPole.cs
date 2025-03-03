@@ -9,6 +9,7 @@ public class GoalPole : MonoBehaviour
     public float flagVelocity = 5;
     bool downFlag;
     Mover mover;
+    public GameObject floatPoint;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         
@@ -45,13 +46,14 @@ public class GoalPole : MonoBehaviour
         float min3 = transform.position.y + (size - 3 * size / 5f);
         float min4 = transform.position.y + (size - 4 * size / 5f);
         float min5 = transform.position.y + (size - 5 * size / 5f);
-
+        int numPoint = 0;
         if (posicionMario>= min1)
         {
-            ScoreManager.Instance.SumarPuntos(5000);
+           ScoreManager.Instance.SumarPuntos(5000);
         }
         else if(posicionMario >= min2)
         {
+      
             ScoreManager.Instance.SumarPuntos(2000);
         }
         else if (posicionMario >= min3)
@@ -60,11 +62,12 @@ public class GoalPole : MonoBehaviour
         }
         else if (posicionMario >= min4)
         {
-            ScoreManager.Instance.SumarPuntos(400);
+           ScoreManager.Instance.SumarPuntos(400);
         }
         else
         {
-            ScoreManager.Instance.SumarPuntos(100);
+         
+           ScoreManager.Instance.SumarPuntos(100);
         }
 
     }
