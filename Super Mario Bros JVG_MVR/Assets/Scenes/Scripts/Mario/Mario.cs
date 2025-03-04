@@ -8,7 +8,7 @@ public class Mario : MonoBehaviour
     Mover mover;
     Colisiones colisiones;
     animaciones animaciones;
-    Rigidbody2D rb2d;
+    public Rigidbody2D rb2d;
     bool isDead;
     public GameObject firewallPrefab;
     public Transform Shootpos;

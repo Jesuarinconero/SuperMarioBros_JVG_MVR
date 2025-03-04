@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Castle : MonoBehaviour
 {
@@ -21,14 +22,13 @@ public class Castle : MonoBehaviour
         }
     }
 
-
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.CompareTag("Player")) // Asegurar que Mario tiene el tag "Player"
-        {
-            marioInCastle = true;
-        }
+        
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        
     }
+ 
 
     void OnTriggerExit2D(Collider2D other)
     {

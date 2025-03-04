@@ -21,6 +21,6 @@ public class GameManager : MonoBehaviour
     public void GoToLevel(string sceneName)
     {
         Debug.Log("Cambiando a la escena: " + sceneName); // Depuración
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(2);
     }
 }
