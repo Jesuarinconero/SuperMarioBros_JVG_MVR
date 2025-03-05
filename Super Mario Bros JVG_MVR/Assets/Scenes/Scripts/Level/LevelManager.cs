@@ -3,11 +3,13 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public HUD hud;
+    public Mario mario;  // Referencia a Mario
     int coins;
     public int time;
-    public float timer ; 
+    public float timer;
 
     public static LevelManager Instance;
+
     private void Awake()
     {
         if (Instance == null)
@@ -20,27 +22,30 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         coins = 0;
-        timer = time;  // El temporizador empieza en 400
+        timer = time;
         hud.UpdateTime(timer);
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         if (timer > 0)
         {
-            timer -= Time.deltaTime;  // Restar tiempo en lugar de sumarlo
-            if (timer < 0) timer = 0; // Asegurar que no baje de 0
-            hud.UpdateTime(timer);
+            timer -= Time.deltaTime;
+            if (timer <= 0)
+            {
+                timer = 0;
+                hud.UpdateTime(timer);
+                mario.Dead();  // Mario muere cuando el tiempo llega a 0
+            }
+            else
+            {
+                hud.UpdateTime(timer);
+            }
         }
     }
-
-
 
     public void AddCoins()
     {

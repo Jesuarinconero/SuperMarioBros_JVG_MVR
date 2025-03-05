@@ -1,10 +1,13 @@
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 public class HUD : MonoBehaviour
 {
     public TextMeshProUGUI score;
     public TextMeshProUGUI numCoins;
-    public TextMeshProUGUI time; 
+    public TextMeshProUGUI time;
+    private bool isTimeOver = false;
+    public Mario mario; // Referencia a Mario
 
     //int coins;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,6 +37,9 @@ public class HUD : MonoBehaviour
         int timeLeftInt = Mathf.RoundToInt(timeLeft);
         time.text = timeLeftInt.ToString("D3"); // Asegura que el tiempo tenga 3 dígitos
     }
+  
+    
+
 
 
 }
