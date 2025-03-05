@@ -24,19 +24,19 @@ public class Pipe : MonoBehaviour
         // Desactivar movimiento y colisiones
         mario.GetComponent<Mover>().enabled = false;
         mario.GetComponent<Colisiones>().enabled = false;
-        mario.rb2d.velocity = Vector2.zero;
+        mario.rb2d.linearVelocity = Vector2.zero;
 
-        // Animación de entrada
+        // Animaciï¿½n de entrada
         Vector3 enteredPosition = transform.position + enterDirection;
         Vector3 enteredScale = Vector3.one * 0.5f;
         yield return Move(mario.transform, enteredPosition, enteredScale);
         yield return new WaitForSeconds(1f);
 
-        // Ajuste de la cámara si hay SideScrolling
+        // Ajuste de la cï¿½mara si hay SideScrolling
         var sideScrolling = Camera.main.GetComponent<SideScrolling>();
         sideScrolling.SetUnderground(connection.position.y < sideScrolling.undergroundThreshold);
 
-        // Teletransportación con dirección de salida
+        // Teletransportaciï¿½n con direcciï¿½n de salida
         if (exitDirection != Vector3.zero)
         {
             mario.transform.position = connection.position - exitDirection;
