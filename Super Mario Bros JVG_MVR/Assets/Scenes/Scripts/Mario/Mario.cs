@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class Mario : MonoBehaviour
 {
@@ -67,7 +69,10 @@ public class Mario : MonoBehaviour
         }
         animaciones.Agacharse(isAgachado);
 
-
+        if (transform.position.y < -10 && !isDead)
+        {
+            Dead();
+        }
         /*if (rb2d.linearVelocity.y > 0 && !isDead)
         {
             headBox.SetActive(true);
@@ -110,7 +115,6 @@ public class Mario : MonoBehaviour
     }
     public void Dead()
     {
-    
         if (!isDead)
         {
             AudioManager.Instance.PlayDead();
@@ -118,9 +122,23 @@ public class Mario : MonoBehaviour
             colisiones.Dead();
             mover.Dead();
             animaciones.Dead();
-        }
 
+            // En lugar de reiniciar la escena, pierde una vida
+            Invoke("LoseLife", 2f);
+        }
     }
+
+    void LoseLife()
+    {
+        MarioLivesManager.Instance.LoseLife();
+    }
+
+
+    void ReloadScene()
+    {
+        SceneManager.LoadScene(0); // Cargar la primera escena (índice 0)
+    }
+
     void Changestate(int newStage)
     {
         currentState = (State)newStage;
