@@ -18,6 +18,7 @@ public class AudioManager : MonoBehaviour{
     public AudioClip clipStomp;
     AudioSource audioSource; 
     public static AudioManager Instance;
+    
     private void Awake()
     {
         if (Instance == null)

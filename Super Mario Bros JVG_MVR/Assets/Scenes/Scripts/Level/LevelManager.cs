@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.SceneManagement; // Necesario para cambiar de escena
+using System.Collections; // Necesario para usar corrutinas
 
 public class LevelManager : MonoBehaviour
 {
     public HUD hud;
-    public Mario mario;  // Referencia a Mario
+    public Mario mario;
     int coins;
     public int time;
     public float timer;
@@ -15,6 +17,7 @@ public class LevelManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -39,6 +42,7 @@ public class LevelManager : MonoBehaviour
                 timer = 0;
                 hud.UpdateTime(timer);
                 mario.Dead();  // Mario muere cuando el tiempo llega a 0
+                StartCoroutine(RestartLevel()); // Inicia el cooldown antes de reiniciar
             }
             else
             {
@@ -51,5 +55,11 @@ public class LevelManager : MonoBehaviour
     {
         coins++;
         hud.UpdateCoins(coins);
+    }
+
+    IEnumerator RestartLevel()
+    {
+        yield return new WaitForSeconds(2f); // Cooldown de 3 segundos
+        SceneManager.LoadScene(0); // Vuelve a la pantalla de inicio (ajusta el nombre de la escena)
     }
 }
